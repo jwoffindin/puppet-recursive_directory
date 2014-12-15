@@ -12,11 +12,11 @@ usage
 ```
 recursive_directory {'some_unique_title':
       source_dir => 'custom_module/source_dir',
-      dest_dir   => '/tmp',
+      dest_dir  => '/tmp',
       file_mode  => '0644',
-      dir_mode   => '0700',
       owner      => 'root',
-      group      => 'root'
+      group      => 'root',
+      dir_mode   => '0700',
 }
 ```
 > This will copy all files from <module_path>custom_module/templates/source_dir folder
@@ -46,7 +46,7 @@ parameter documentation
     
 **dir_mode**  
 
->The file mode for all of the directories that get created by the module
+>The file mode for all of the directories
 >**required: false**  
 >**defaut: 0700**  
 

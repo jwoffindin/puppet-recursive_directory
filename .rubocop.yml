@@ -1,0 +1,4 @@
+LineLength:
+  Max: 120
+HashSyntax:
+  EnforcedStyle: hash_rockets

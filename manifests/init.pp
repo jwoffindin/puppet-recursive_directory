@@ -1,5 +1,5 @@
 # == Class: recursive_directory
-#                                                                                                                      
+#
 # Defined type to recursively create files from templates
 #
 # === Parameters
@@ -28,14 +28,15 @@
 #   Default: 'nobody'
 #
 # === Examples
-# class recursive_directory::test {
-#     recursive_directory{'recursive_something':
-#         source_dir => 'recursive_directory',
-#         dest_dir  => '/tmp',
-#         owner      => 'root',
-#         group      => 'root'
+#
+#     class recursive_directory::test {
+#         recursive_directory{'recursive_something':
+#             source_dir => 'recursive_directory',
+#             dest_dir  => '/tmp',
+#             owner      => 'root',
+#             group      => 'root'
+#         }
 #     }
-# }
 #
 # === Authors
 #
@@ -46,26 +47,19 @@
 # Copyright 2013 Rob Tucker here, unless otherwise noted.
 #
 define recursive_directory (
-    $source_dir = undef,
-    $dest_dir = undef,
-    $file_mode = undef,
-    $owner = 'nobody',
-    $group = 'nobody',
-    $dir_mode = undef
+  $source_dir = undef,
+  $dest_dir = undef,
+  $file_mode = undef,
+  $owner = 'nobody',
+  $group = 'nobody',
+  $dir_mode = undef
 ){
-    if $source_dir and $dest_dir {
-        $resources_to_create = recurse_directory(
-            $source_dir,
-            $dest_dir,
-            $file_mode,
-            $owner,
-            $group,
-            $dir_mode
-            )
-        notice($resources_to_create)
-        create_resources('file', $resources_to_create)
-    } else {
-        fail("source_dir and dest_dir are required")
-    }
+  if $source_dir and $dest_dir {
+    $resources_to_create = recurse_directory($source_dir, $dest_dir, $file_mode, $owner, $group, $dir_mode)
+    notice($resources_to_create)
+    create_resources('file', $resources_to_create)
+  } else {
+    fail("source_dir and dest_dir are required")
+  }
 
 }
