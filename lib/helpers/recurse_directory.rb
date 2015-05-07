@@ -69,10 +69,10 @@ module Helpers
       wrapper.file = file.to_s
       wrapper.result
     rescue => ex
-      raise Puppet::ParseError, describe_template_failure(ex)
+      raise Puppet::ParseError, describe_template_failure(ex, file)
     end
 
-    def describe_template_failure(ex)
+    def describe_template_failure(ex, file)
       path, line_no = ex.backtrace.first.split(':', 2)
       format("Failed to parse template %s:\n  Filepath: %s\n  Line: %s\n  Detail: %s\n", file, path, line_no, ex)
     end
