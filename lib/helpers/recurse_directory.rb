@@ -3,7 +3,7 @@ module Helpers
 
   # Implementation of recurse_directory puppet function. This is invoked directly from
   # the puppet function ./lib/puppet/parser/functions/recurse_directory.rb
-  class RecurseDirectory < Struct.new(:template_context, *FIELDS)
+  class RecurseDirectory < Struct.new(:template_context, :environment, *FIELDS)
     def initialize(*args)
       super
       self.file_mode = '0600' unless file_mode && file_mode != ''
@@ -55,8 +55,7 @@ module Helpers
     end
 
     def build_template_root
-      module_name, template_path = source_dir.split(File::Separator, 2)
-      file_path = File.join([module_dir, module_name, 'templates', template_path].compact)
+      file_path = Puppet::Parser::Files.find_template(source_dir, environment)
       Pathname.new(file_path)
     end
 

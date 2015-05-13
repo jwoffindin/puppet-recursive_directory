@@ -40,6 +40,6 @@ module Puppet::Parser::Functions
   # - default: 0700
   newfunction(:recurse_directory, :type => :rvalue) do |args|
     args = (args + [nil] * 5)[0, 6]
-    Helpers::RecurseDirectory.new(self, *args).recurse
+    Helpers::RecurseDirectory.new(self, compiler.environment, *args).recurse
   end
 end
