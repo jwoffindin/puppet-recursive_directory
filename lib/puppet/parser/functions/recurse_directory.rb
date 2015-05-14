@@ -40,6 +40,26 @@ module Puppet::Parser::Functions
   # - default: 0700
   newfunction(:recurse_directory, :type => :rvalue) do |args|
     args = (args + [nil] * 5)[0, 6]
-    Helpers::RecurseDirectory.new(self, compiler.environment, *args).recurse
+    files = Helpers::RecurseDirectory.new(self, compiler.environment, *args).recurse
+    files.each do |file, params|
+      if function_defined_with_params(["file[#{file}]", params])
+        Puppet.debug("Resource file[#{file}] with params #{params} not created because it already exists")
+      else
+        Puppet.debug("Create new resource file[#{file}] with params #{params}")
+        function_create_resources(["File", { file => params }])
+      end
+    end
+    true
+  end
+
+  def create_resources(files)
+    files.each do |file, params|
+      if function_defined_with_params(["file[#{file}]", params])
+        Puppet.debug("Resource file[#{file}] with params #{params} not created because it already exists")
+      else
+        Puppet.debug("Create new resource file[#{file}] with params #{params}")
+        function_create_resources(["File", { file => params }])
+      end
+    end
   end
 end
